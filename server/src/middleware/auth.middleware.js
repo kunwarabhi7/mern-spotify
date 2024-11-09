@@ -21,8 +21,7 @@ export const requireAdmin = async (req, res, next) => {
     }
     next();
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Intenal server error", error: error.message });
+    console.error(error);
+    next(error);
   }
 };
