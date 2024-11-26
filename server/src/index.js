@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { clerkMiddleware } from "@clerk/express";
 import fileupload from "express-fileupload";
 import path from "path";
+import cors from "cors";
 
 import userRoutes from "./routes/user.route.js";
 import adminRoutes from "./routes/admin.route.js";
@@ -18,6 +19,12 @@ const app = experss();
 const PORT = process.env.PORT || 5000;
 const __dirname = path.resolve();
 app.use(experss.json()); // to parse request.body
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 app.use(clerkMiddleware()); /// this will add auth to request object
 app.use(
   fileupload({
@@ -39,14 +46,12 @@ app.use("/api/stats", statsRoutes);
 
 //error handler
 app.use((err, req, res, next) => {
-  res
-    .status(500)
-    .json({
-      message:
-        process.env.NODE_ENV === "production"
-          ? "Internal Server Error"
-          : err.message,
-    });
+  res.status(500).json({
+    message:
+      process.env.NODE_ENV === "production"
+        ? "Internal Server Error"
+        : err.message,
+  });
 });
 
 app.listen(PORT, () => {
