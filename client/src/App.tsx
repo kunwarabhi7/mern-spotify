@@ -2,14 +2,20 @@ import { Route, Routes } from "react-router-dom"
 import HomePage from "./pages/Home/HomePage"
 import AuthCallback from "./pages/Auth-callback/Auth-callback"
 import { AuthenticateWithRedirectCallback } from "@clerk/clerk-react"
+import MainLayout from "./layout/MainLayout"
+import ChatPage from "./pages/chat/ChatPage"
 
 const App = () => {
   return (
     <>
  <Routes > 
-  <Route path="/" element={<HomePage />}/>
+
   <Route path="/sso-callback" element={<AuthenticateWithRedirectCallback signUpFallbackRedirectUrl={'/authCallback'}/>}/>
   <Route path="/authCallback" element={<AuthCallback />} />
+  <Route element={<MainLayout />}>
+  <Route path="/" element={<HomePage />}/>
+  <Route path="/chat" element={<ChatPage />} />
+  </Route>
  </Routes>
     </>
   )

@@ -17,7 +17,6 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
  <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
     <AuthProvider>
-
     <BrowserRouter>
       <App />
     </BrowserRouter>
