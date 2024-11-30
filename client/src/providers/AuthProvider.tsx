@@ -1,4 +1,5 @@
 import { axiosInstance } from "@/lib/axios"
+import { useAuthStore } from "@/store/useAuthStore"
 import { useAuth } from "@clerk/clerk-react"
 import { Loader } from "lucide-react"
 import { useEffect, useState } from "react"
@@ -10,12 +11,14 @@ else delete axiosInstance.defaults.headers.common['Authorization']
 
 const AuthProvider = ({children}:{children:React.ReactNode}) => {
 const {getToken } =     useAuth()
+const {checkAdminStatus} = useAuthStore()
 const [loading , setLoading] = useState(true);
 useEffect(()=>{
     const initAuth = async () =>{
         try {
             const token =await getToken();
             updateApiToken(token);
+            if(token) await checkAdminStatus() // Check admin status after successful login
         } catch (error) {
             updateApiToken(null)
             console.log("Error in  auth Provider")
