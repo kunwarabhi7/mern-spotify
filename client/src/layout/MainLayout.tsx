@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom"
 import LeftSidebar from "./components/LeftSidebar";
 import FriendActivity from "./components/FriendActivity";
 import AudioPlayer from "./components/AudioPlayer";
+import PlayBackControls from "./components/PlayBackControls";
 
 
 const MainLayout = () => {
@@ -26,6 +27,7 @@ const MainLayout = () => {
         <FriendActivity />
        </ResizablePanel>
         </ResizablePanelGroup>
+        <PlayBackControls />
     </div>
   )
 }

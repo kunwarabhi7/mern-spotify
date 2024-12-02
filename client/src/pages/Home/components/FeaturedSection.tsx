@@ -1,5 +1,6 @@
 import FeaturedGridSkeleton from "@/components/skeletons/FeaturedGridSkelton";
 import { useMusicStore } from "@/store/useMusicStore"
+import PlayButton from "./PlayButton";
 
 
 const FeaturedSection = () => {
@@ -20,8 +21,9 @@ if(error ) return <p className="text-red-500 mb-4 text-lg">{error}</p>
 						<p className='text-sm text-zinc-400 truncate'>{song.artist}</p>
 					</div>
 
+<PlayButton song={song} />
             </div>
-            // Todo : ADD play button
+
         ))}
     </div>
   )
