@@ -3,15 +3,17 @@ import { Song } from "../models/song.model.js";
 import { Album } from "../models/album.model.js";
 
 //helper functions for cloudniary uploads
-const uploadToCloudNiary = async (file) => {
+
+// helper function for cloudinary uploads
+const uploadToCloudinary = async (file) => {
   try {
     const result = await cloudinary.uploader.upload(file.tempFilePath, {
       resource_type: "auto",
     });
     return result.secure_url;
   } catch (error) {
-    console.log("Error uploading file: " + error.message);
-    throw new Error(error.message);
+    console.log("Error in uploadToCloudinary", error);
+    throw new Error("Error uploading to cloudinary");
   }
 };
 
@@ -25,8 +27,8 @@ export const createSong = async (req, res, next) => {
     const audioFile = req.files.audioFile;
     const imageFile = req.files.imageFile;
 
-    const audioUrl = await uploadToCloudNiary(audioFile);
-    const imageUrl = await uploadToCloudNiary(imageFile);
+    const audioUrl = await uploadToCloudinary(audioFile);
+    const imageUrl = await uploadToCloudinary(imageFile);
 
     const song = new Song({
       title,
@@ -57,9 +59,6 @@ export const deleteSong = async (req, res, next) => {
     const { id } = req.params;
 
     const song = await Song.findById(id);
-    if (!song) {
-      return res.status(404).json({ message: "Song not found" });
-    }
 
     // if song belongs to an album, update the album's songs array
     if (song.albumId) {
@@ -72,27 +71,30 @@ export const deleteSong = async (req, res, next) => {
 
     res.status(200).json({ message: "Song deleted successfully" });
   } catch (error) {
-    console.log("Error in deleteSong backend", error);
+    console.log("Error in deleteSong", error);
     next(error);
   }
 };
 
 export const createAlbum = async (req, res, next) => {
   try {
-    const { title, artist, releseYear } = req.body;
-    const imageFile = req.files;
-    const imageUrl = await uploadToCloudNiary(imageFile);
+    const { title, artist, releaseYear } = req.body;
+    const { imageFile } = req.files;
+
+    const imageUrl = await uploadToCloudinary(imageFile);
 
     const album = new Album({
       title,
       artist,
       imageUrl,
-      releseYear,
+      releaseYear,
     });
+
     await album.save();
-    res.status(201).json({ message: "SUCCESS", album });
+
+    res.status(201).json(album);
   } catch (error) {
-    console.log("Error in Creating Album", error);
+    console.log("Error in createAlbum", error);
     next(error);
   }
 };
@@ -102,9 +104,9 @@ export const deleteAlbum = async (req, res, next) => {
     const { id } = req.params;
     await Song.deleteMany({ albumId: id });
     await Album.findByIdAndDelete(id);
-    res.status(200).json({ message: "SUCCESS Album Deleted Successfully" });
+    res.status(200).json({ message: "Album deleted successfully" });
   } catch (error) {
-    console.log("Error in deketeAlbum", error.message);
+    console.log("Error in deleteAlbum", error);
     next(error);
   }
 };
