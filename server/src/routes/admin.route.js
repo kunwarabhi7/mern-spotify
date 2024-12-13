@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { protectedRoute, requireAdmin } from "../middleware/auth.middleware.js";
+import { protectRoute, requireAdmin } from "../middleware/auth.middleware.js";
 import {
   checkAdmin,
   createAlbum,
@@ -10,7 +10,7 @@ import {
 
 const router = Router();
 
-router.use(protectedRoute, requireAdmin);
+router.use(protectRoute, requireAdmin);
 router.get("/check", checkAdmin);
 router.post("/songs", createSong);
 router.delete("songs/:id", deleteSong);
