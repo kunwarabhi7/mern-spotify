@@ -10,7 +10,10 @@ import {
 
 const router = Router();
 
-router.use(protectRoute, requireAdmin);
+// router.use(protectRoute, requireAdmin);
+router.get("/", (req, res) => {
+  res.json({ message: "Hello World" });
+});
 router.get("/check", checkAdmin);
 router.post("/songs", createSong);
 router.delete("songs/:id", deleteSong);

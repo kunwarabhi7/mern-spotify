@@ -120,7 +120,7 @@ return (
 						</Button>
 					</div>
 
-					<div className='hidden sm:flex items-center gap-2 w-full'>
+					<div className='flex items-center gap-2 w-full'>
 						<div className='text-xs text-zinc-400'>{formatTime(currentTime)}</div>
 						<Slider
 							value={[currentTime]}
@@ -133,14 +133,14 @@ return (
 					</div>
 				</div>
 				{/* volume controls */}
-				<div className='hidden sm:flex items-center gap-4 min-w-[180px] w-[30%] justify-end'>
-					<Button size='icon' variant='ghost' className='hover:text-white text-zinc-400'>
+				<div className=' flex items-center gap-4 min-w-[180px] w-[30%] justify-end'>
+					<Button size='icon' variant='ghost' className='hidden md:block hover:text-white text-zinc-400'>
 						<Mic2 className='h-4 w-4' />
 					</Button>
-					<Button size='icon' variant='ghost' className='hover:text-white text-zinc-400'>
+					<Button size='icon' variant='ghost' className='hidden md:block hover:text-white text-zinc-400'>
 						<ListMusic className='h-4 w-4' />
 					</Button>
-					<Button size='icon' variant='ghost' className='hover:text-white text-zinc-400'>
+					<Button size='icon' variant='ghost' className='hidden md:block hover:text-white text-zinc-400'>
 						<Laptop2 className='h-4 w-4' />
 					</Button>
 
