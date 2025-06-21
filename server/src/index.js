@@ -48,6 +48,9 @@ app.use(
 );
 
 // cron jobs
+
+if (process.env.NODE_ENV === "production") job.start();
+
 const tempDir = path.join(process.cwd(), "tmp");
 cron.schedule("0 * * * *", () => {
   if (fs.existsSync(tempDir)) {
